@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm install",
+    "start": "node index.js"
   },
   "author": "abdul aziz",
   "license": "ISC",
