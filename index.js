@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 ///
-app.get("/health", async (req, res) => {
+app.get("/health", (req, res) => {
   res.send({ message: "health ok !" });
 });
 app.use("/api/v1/user", myUserRoutes);
