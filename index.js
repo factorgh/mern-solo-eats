@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import myUserRoutes from "./routes/myUser.js";
 import myRestaurantRoutes from "./routes/MyRestaurant.js";
 import cloudinary from "cloudinary";
+import restaurantRoutes from "./routes/restaurant.js";
 
 ///CLOUDINARY SETUP
 cloudinary.config({
@@ -28,6 +29,7 @@ app.get("/health", (req, res) => {
 });
 app.use("/api/v1/user", myUserRoutes);
 app.use("/api/v1/restaurant", myRestaurantRoutes);
+app.use("/api/v1/my/restaurant", restaurantRoutes);
 
 app.listen(5000, () => {
   console.log("Sever started on port 5000");
