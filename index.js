@@ -6,6 +6,7 @@ import myUserRoutes from "./routes/myUser.js";
 import myRestaurantRoutes from "./routes/MyRestaurant.js";
 import cloudinary from "cloudinary";
 import restaurantRoutes from "./routes/restaurant.js";
+import OrderRoutes from "./routes/orderRoutes.js";
 
 ///CLOUDINARY SETUP
 cloudinary.config({
@@ -27,9 +28,12 @@ app.use(express.json());
 app.get("/health", (req, res) => {
   res.send({ message: "health ok !" });
 });
+
+app.use("/api/order/checkout/webhook", express.raw({ type: "*/*" }));
 app.use("/api/v1/user", myUserRoutes);
 app.use("/api/v1/restaurant", myRestaurantRoutes);
 app.use("/api/v1/my/restaurant", restaurantRoutes);
+app.use("/api/v1/order", OrderRoutes);
 
 app.listen(5000, () => {
   console.log("Sever started on port 5000");

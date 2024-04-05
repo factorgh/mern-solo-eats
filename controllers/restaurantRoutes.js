@@ -1,10 +1,16 @@
 import Restaurant from "../models/MyRestaurant.js";
+import mongoose from "mongoose";
 
 const getRestaurant = async (req, res) => {
   try {
-    const restaurantId = req.params.restaurantId;
+    let restaurantId = req.params.restaurantId;
+    if (!mongoose.Types.ObjectId.isValid(restaurantId)) {
+      restaurantId = restaurantId.replace(/\s/g, "");
+    }
 
     const restaurant = await Restaurant.findById(restaurantId);
+    console.log(restaurant);
+
     if (!restaurant) {
       return res.status(404).json({ message: "restaurant not found" });
     }
