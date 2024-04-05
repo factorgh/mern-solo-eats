@@ -153,4 +153,5 @@ const createSession = async (
 export default {
   createCheckoutSession,
   stripeWebhookHandler,
+  getMyOrders,
 };
