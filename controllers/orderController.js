@@ -1,10 +1,11 @@
 import Stripe from "stripe";
-import Restaurant from "../models/MyRestaurant.js";
-import Order from "../models/order.js";
+import { Request, Response } from "express";
+import Restaurant, { MenuItemType } from "../models/restaurant";
+import Order from "../models/order";
 
 const STRIPE = new Stripe(process.env.STRIPE_API_KEY);
 const FRONTEND_URL = process.env.FRONTEND_URL;
-const STRIPE_ENDPOINT = process.env.STRIPE_ENDPOINT_SECRET;
+const STRIPE_ENDPOINT_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 
 const getMyOrders = async (req, res) => {
   try {
@@ -24,7 +25,11 @@ const stripeWebhookHandler = async (req, res) => {
 
   try {
     const sig = req.headers["stripe-signature"];
-    event = STRIPE.webhooks.constructEvent(req.body, sig, STRIPE_ENDPOINT);
+    event = STRIPE.webhooks.constructEvent(
+      req.body,
+      sig,
+      STRIPE_ENDPOINT_SECRET
+    );
   } catch (error) {
     console.log(error);
     return res.status(400).send(`Webhook error: ${error.message}`);
@@ -87,7 +92,7 @@ const createCheckoutSession = async (req, res) => {
     res.json({ url: session.url });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.raw.message });
   }
 };
 
@@ -151,7 +156,7 @@ const createSession = async (
 };
 
 export default {
+  getMyOrders,
   createCheckoutSession,
   stripeWebhookHandler,
-  getMyOrders,
 };
